@@ -1,0 +1,24 @@
+﻿using PersonSpaceshipsGame.Models.Cards;
+using PersonSpaceshipsGame.Models.Cards.Person;
+using PersonSpaceshipsGame.Models.Cards.Spaceships;
+using PersonSpaceshipsGame.Services.CardGameService.Interfaces;
+using PersonSpaceshipsGame.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PersonSpaceshipsGame.Services
+{
+    public class PersonCardGameService : IPersonCardGameService
+    {
+        public IPersonCard? ChooseWinnerCard(IPersonCard card1, IPersonCard card2)
+        {
+            if (card1.Mass == card2.Mass)
+                return null;
+
+            return card1.Mass > card2.Mass ? card1 : card2;
+        }
+    }
+}
