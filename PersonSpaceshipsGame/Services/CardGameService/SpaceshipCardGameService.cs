@@ -12,10 +12,12 @@ namespace PersonSpaceshipsGame.Services.CardGameService
     {
         public ISpaceshipCard? ChooseWinnerCard(ISpaceshipCard card1, ISpaceshipCard card2)
         {
-            if (card1.CrewCount == card2.CrewCount)
+            var compareToResponse = card1.CompareTo(card2);
+
+            if (compareToResponse == 0)
                 return null;
 
-            return card1.CrewCount > card2.CrewCount ? card1 : card2;
+            return compareToResponse == 1 ? card1 : card2;
         }
     }
 }

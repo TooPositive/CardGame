@@ -2,10 +2,17 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PersonSpaceshipsGame.Controllers.CardGame;
+using PersonSpaceshipsGame.CQRS.Handlers.CommandHandlers.Persons;
+using PersonSpaceshipsGame.CQRS.Handlers.QueriesHandlers.Persons;
+using PersonSpaceshipsGame.Models.Database;
+using System;
+using MediatR;
+using System.Reflection;
 
 namespace PersonSpaceshipsGame
 {
@@ -28,8 +35,9 @@ namespace PersonSpaceshipsGame
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            // Cards
-            services.AddScoped<ICardGameController, CardGameController>();
+            //services.AddDbContext<CardGameContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("CardGameContextConnectionString")));
+            services.AddDbContext<CardGameContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CardGame;Trusted_Connection=True;"));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
         }
 

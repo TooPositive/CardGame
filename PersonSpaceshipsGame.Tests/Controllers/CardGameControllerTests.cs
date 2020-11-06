@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using PersonSpaceshipsGame.Controllers.CardGame;
+using PersonSpaceshipsGame.Controllers.CardGame.Responses;
 using PersonSpaceshipsGame.Dtos;
 using PersonSpaceshipsGame.Factories;
 using PersonSpaceshipsGame.Models.Cards;
@@ -15,19 +16,28 @@ namespace PersonSpaceshipsGame.Tests.Controllers
 {
     public class CardGameControllerTests
     {
-        private ICardGameController cardGameController;
+        private CardGameController _cardGameController;
 
         [SetUp]
         public void Setup()
         {
-            this.cardGameController = CardGameFactory.Create<ICardGameController>();
+            _cardGameController = new CardGameController();
         }
 
-        [TestCaseSource(typeof(CardsPlayedTestCases), nameof(CardsPlayedTestCases.Serialiazed))]
-        public void ChooseWinnerPersonCard(PlayedCards cards, string desiredResponse)
+        [TestCaseSource(typeof(PlayedCardsTestCases), nameof(PlayedCardsTestCases.PersonsPlayedCard))]
+        public void PersonsCardsPlayed(PersonsPlayedCards cards, CardsPlayedResponse desiredResponse)
         {
-            var response = cardGameController.CardsPlayed(cards);
-            Assert.AreEqual(response, desiredResponse);
+            //TODO: Validate points
+            var response = _cardGameController.PersonsCardsPlayed(cards.personCard1, cards.personCard2);
+            Assert.IsTrue(response.Equals(desiredResponse));
+        }
+
+        [TestCaseSource(typeof(PlayedCardsTestCases), nameof(PlayedCardsTestCases.SpaceshipsPlayedCards))]
+        public void CardsPlayed(SpaceShipPlayedCards cards, CardsPlayedResponse desiredResponse)
+        {
+            //TODO: Validate points
+            var response = _cardGameController.SpaceShipCardsPlayed(cards.card1, cards.card2);
+            Assert.IsTrue(response.Equals(desiredResponse));
         }
     }
 }

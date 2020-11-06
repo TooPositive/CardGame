@@ -1,5 +1,13 @@
-﻿using PersonSpaceshipsGame.Dtos;
+﻿using MediatR;
+using PersonSpaceshipsGame.Controllers.CardGame.Responses;
+using PersonSpaceshipsGame.CQRS.Handlers.QueriesHandlers.Persons;
+using PersonSpaceshipsGame.CQRS.Requests;
+using PersonSpaceshipsGame.CQRS.Requests.Persons;
+using PersonSpaceshipsGame.Dtos;
 using PersonSpaceshipsGame.Factories;
+using PersonSpaceshipsGame.Models.Cards;
+using PersonSpaceshipsGame.Models.Cards.Person;
+using PersonSpaceshipsGame.Models.Cards.Spaceships;
 using PersonSpaceshipsGame.Services.CardGameService.Interfaces;
 using PersonSpaceshipsGame.Services.Interfaces;
 using System;
@@ -10,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace PersonSpaceshipsGame.Controllers.CardGame
 {
-    public class CardGameController : ICardGameController
+    public class CardGameController : IDefaultCardGameController, IPersonsPlayedCardGameController, ISpaceShipsPlayedCardGameController
     {
         public IPersonCardGameService personCardGameService { get; set; }
         public ISpaceshipCardGameService spaceshipCardGameService { get; set; }
@@ -22,33 +30,30 @@ namespace PersonSpaceshipsGame.Controllers.CardGame
             spaceshipCardGameService = GameServiceFactory.Create<ISpaceshipCardGameService>();
         }
 
-        public string CardsPlayed(PlayedCards playedCards)
+        public CardsPlayedResponse PersonsCardsPlayed(IPersonCard card1, IPersonCard card2)
         {
-            if (string.IsNullOrEmpty(playedCards.JsonCard1) || string.IsNullOrEmpty(playedCards.JsonCard2))
-                return "Not enough cards";
+            var winnerCard = personCardGameService.ChooseWinnerCard(card1, card2);
+            return CardsPlayed(card1, card2, winnerCard);
+        }
 
+        public CardsPlayedResponse SpaceShipCardsPlayed(ISpaceshipCard card1, ISpaceshipCard card2)
+        {
+            var winnerCard = spaceshipCardGameService.ChooseWinnerCard(card1, card2);
+            return CardsPlayed(card1, card2, winnerCard);
+        }
 
-            // how to get this proper cards.... : ( 
+        private CardsPlayedResponse CardsPlayed(IPlayableCard card1, IPlayableCard card2, IPlayableCard winnerCard)
+        {
+            CardsPlayedResponse cardsPlayedResponse = new CardsPlayedResponse() { Player1 = card1.Player, Player2 = card2.Player };
 
-            //try
-            //{
-            //    switch (playedCards.CardType)
-            //    {
-            //        case Models.Cards.Enums.CardType.Person:
-            //            break;
-            //        case Models.Cards.Enums.CardType.Spaceship:
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //}
-            //catch (Exception)
-            //{
-
-            //    throw;
-            //}
-
-            return "";
+            if (winnerCard == null)
+                cardsPlayedResponse.Exceptions = Enums.CardPlayedExceptions.Draw;
+            else
+            {
+                cardsPlayedResponse.Winner = winnerCard.Player;
+                winnerCard.Player.Points++;
+            }
+            return cardsPlayedResponse;
         }
     }
 }

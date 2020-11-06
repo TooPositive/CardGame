@@ -9,16 +9,17 @@ namespace PersonSpaceshipsGame.Factories
 {
     public class CardGameFactory
     {
-        public static T Create<T>()
-        {
-            if (typeof(T) == typeof(ICardGameController))
-            {
-                return (T)(ICardGameController)new CardGameController();
-            }
-            else
-            {
-                throw new NotImplementedException(String.Format("Creation of {0} interface is not supported yet.", typeof(T)));
-            }
-        }
+        //TODO: Is it neccessary?
+        //public static T Create<T>()
+        //{
+        //    if (typeof(T) == typeof(IPlayedCardGameController))
+        //    {
+        //        return (T)(IPlayedCardGameController)new CardGameController();
+        //    }
+        //    else
+        //    {
+        //        throw new NotImplementedException(String.Format("Creation of {0} interface is not supported yet.", typeof(T)));
+        //    }
+        //}
     }
 }
