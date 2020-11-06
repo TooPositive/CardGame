@@ -21,10 +21,10 @@ namespace PersonSpaceshipsGame.Tests.Services
             this.spaceshipCardGameService = GameServiceFactory.Create<ISpaceshipCardGameService>();
         }
 
-        //[Test]
         [TestCaseSource(typeof(ChooseWinnerTestCases), nameof(ChooseWinnerTestCases.PersonTestCases))]
         public void ChooseWinnerPersonCard(IPersonCard card1, IPersonCard card2, IPersonCard? winnerCard)
         {
+
             IPlayableCard? winnerCardfromService = personCardGameService.ChooseWinnerCard(card1, card2);
             Assert.AreEqual(winnerCardfromService, winnerCard);
         }

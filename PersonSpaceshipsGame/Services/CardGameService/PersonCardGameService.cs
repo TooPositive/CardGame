@@ -15,10 +15,12 @@ namespace PersonSpaceshipsGame.Services
     {
         public IPersonCard? ChooseWinnerCard(IPersonCard card1, IPersonCard card2)
         {
-            if (card1.Mass == card2.Mass)
+            var compareToResponse = card1.CompareTo(card2);
+
+            if (compareToResponse == 0)
                 return null;
 
-            return card1.Mass > card2.Mass ? card1 : card2;
+            return compareToResponse == 1 ? card1 : card2;
         }
     }
 }

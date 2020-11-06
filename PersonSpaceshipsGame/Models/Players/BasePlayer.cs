@@ -9,7 +9,14 @@ namespace PersonSpaceshipsGame.Models.Players
 {
     public abstract class BasePlayer
     {
+        public Guid Id { get; set; }
         public int Points { get; set; }
-        public ICollection<IPlayableCard> Cards { get; set; }
+        public IEnumerable<IPlayableCard> Cards { get; set; }
+
+        public BasePlayer()
+        {
+            Id = new Guid();
+            Points = 0;
+        }
     }
 }

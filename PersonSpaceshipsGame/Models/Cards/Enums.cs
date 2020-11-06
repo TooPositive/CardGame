@@ -13,5 +13,10 @@ namespace PersonSpaceshipsGame.Models.Cards
             Person,
             Spaceship
         }
+
+        public enum CardPlayedExceptions
+        {
+            Draw
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PersonSpaceshipsGame.Models.Players;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,10 @@ namespace PersonSpaceshipsGame.Models.Cards
 {
     public interface IPlayableCard
     {
-        int Id { get; set; }
-        string Name { get; set; }        
+        public Enums.CardType CardType { get; set; }
+        Guid Id { get; set; }
+        string Name { get; set; }
+        public Player Player { get; set; }
+
     }
 }

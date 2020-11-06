@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonSpaceshipsGame.Dtos
+namespace PersonSpaceshipsGame.Tests.TestCaseSources.Controllers.Cards
 {
-    public class PlayedCards
+    public class PersonsPlayedCards
     {
-        public Enums.CardType CardType { get; set; }
-        public Guid Card1Id { get; set; }
-        public Guid Card2Id { get; set; }
+        public IPersonCard personCard1 { get; set; }
+        public IPersonCard personCard2 { get; set; }
     }
 }

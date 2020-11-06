@@ -9,6 +9,6 @@ namespace PersonSpaceshipsGame.Models
 {
     public class Player : BasePlayer
     {
-        
+        public Player() : base() { }
     }
 }
