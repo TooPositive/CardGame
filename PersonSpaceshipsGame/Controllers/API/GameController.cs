@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using PersonSpaceshipsGame.Controllers.CardGame;
+using PersonSpaceshipsGame.CQRS.Requests.Cards;
 using PersonSpaceshipsGame.CQRS.Requests.Persons;
 using PersonSpaceshipsGame.Dtos;
 using PersonSpaceshipsGame.Factories;
@@ -41,6 +42,13 @@ namespace PersonSpaceshipsGame.Controllers.API
             return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
         }
 
+        [Route("[action]")]
+        public  IEnumerable<CardTypeDto> GetCardTypes()
+        {
+            var response = _mediator.Send(request: new GetCardTypesRequestModel());
+            return response.Result.CardTypes;
+        }
+        
         [HttpPost]
         [Route("[action]")]
         public HttpResponseMessage PostEndOfCardRound([FromBody] PlayedCards cards)
