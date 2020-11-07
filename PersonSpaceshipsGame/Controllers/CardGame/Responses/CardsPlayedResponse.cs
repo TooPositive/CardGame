@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace PersonSpaceshipsGame.Controllers.CardGame.Responses
 {
-    public class CardsPlayedResponse
+    public class CardsPlayedResponse : ICardsPlayedResponse
     {
         public Player? Winner { get; set; }
-        public Player Player1 { get; set; }
-        public Player Player2 { get; set; }
-        public Enums.CardPlayedExceptions Exceptions { get; set; }
+        public Enums.CardResponseResult Result { get; set; }
+        public IEnumerable<Player> Players { get; set; }
 
         public override bool Equals(object obj)
         {
-            CardsPlayedResponse cardResponsObject = obj as CardsPlayedResponse;
+            ICardsPlayedResponse cardResponseObject = obj as ICardsPlayedResponse;
 
-            if (cardResponsObject == null)
+            if (cardResponseObject == null)
                 return false;
 
-            return Winner == cardResponsObject.Winner && Player1 == cardResponsObject.Player1 && Player2 == cardResponsObject.Player2 && Exceptions == cardResponsObject.Exceptions;
+            return Winner == cardResponseObject.Winner && Result == cardResponseObject.Result;
         }
     }
 }

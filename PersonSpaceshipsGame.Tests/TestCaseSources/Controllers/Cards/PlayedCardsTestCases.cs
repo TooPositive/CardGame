@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PersonSpaceshipsGame.Models;
 using PersonSpaceshipsGame.Controllers.CardGame.Responses;
+using PersonSpaceshipsGame.Models.Players;
 
 namespace PersonSpaceshipsGame.Tests.TestCaseSources.Controllers.Cards
 {
@@ -21,17 +22,18 @@ namespace PersonSpaceshipsGame.Tests.TestCaseSources.Controllers.Cards
         {
             get
             {
-                Player player1 = new Player();
-                Player player2 = new Player();
-                IPersonCard mass10PersonCard = new PersonCard(new Guid(), 10, "Mass 10", player1);                
-                IPersonCard mass15PersonCard = new PersonCard(new Guid(), 15, "Mass 15", player2);
+                List<Player> players = GetPlayers(2);
+                IPersonCard mass10PersonCard = new PersonCard(new Guid(), 10, "Mass 10", players[0]);
+                IPersonCard mass15PersonCard = new PersonCard(new Guid(), 15, "Mass 15", players[1]);
 
-                PersonsPlayedCards person1WonCards = new PersonsPlayedCards() { personCard1 = mass15PersonCard, personCard2 = mass10PersonCard };
-                PersonsPlayedCards drawCards = new PersonsPlayedCards() { personCard1 = mass15PersonCard, personCard2 = mass15PersonCard };
-                PersonsPlayedCards justOneCard = new PersonsPlayedCards() { personCard1 = mass15PersonCard };
+                List<IPersonCard> person1WonCards = new List<IPersonCard>() { mass15PersonCard, mass10PersonCard };
+                List<IPersonCard> drawCards = new List<IPersonCard>() { mass15PersonCard, mass15PersonCard };
+                List<IPersonCard> justOneCard = new List<IPersonCard>() { mass15PersonCard };
 
-                yield return new TestCaseData(person1WonCards, new CardsPlayedResponse() { Winner = mass15PersonCard.Player, Player1 = person1WonCards.personCard1.Player, Player2 = person1WonCards.personCard2.Player});
-                yield return new TestCaseData(drawCards, new CardsPlayedResponse() { Player1 = drawCards.personCard1.Player, Player2 = drawCards.personCard2.Player, Exceptions = Models.Cards.Enums.CardPlayedExceptions.Draw});
+
+                yield return new TestCaseData(person1WonCards, new CardsPlayedResponse() { Winner = mass15PersonCard.Player, Players = players, Result = Models.Cards.Enums.CardResponseResult.Win });
+                yield return new TestCaseData(drawCards, new CardsPlayedResponse() { Players = players, Result = Models.Cards.Enums.CardResponseResult.Draw });
+                yield return new TestCaseData(justOneCard, new CardsPlayedResponse() { Players = players, Result = Models.Cards.Enums.CardResponseResult.NotEnoughCards });
             }
         }
 
@@ -39,18 +41,26 @@ namespace PersonSpaceshipsGame.Tests.TestCaseSources.Controllers.Cards
         {
             get
             {
-                Player player1 = new Player();
-                Player player2 = new Player();
-                ISpaceshipCard crew10PersonCard = new SpaceshipCard(new Guid(), 10, "Crew 10", player1);                
-                ISpaceshipCard crew15PersonCard = new SpaceshipCard(new Guid(), 15, "Crew 15", player2);
+                List<Player> players = GetPlayers(2);
+                ISpaceshipCard crew10PersonCard = new SpaceshipCard(new Guid(), 10, "Crew 10", players[0]);
+                ISpaceshipCard crew15PersonCard = new SpaceshipCard(new Guid(), 15, "Crew 15", players[1]);
 
-                SpaceShipPlayedCards spaceship1Won = new SpaceShipPlayedCards() { card1 = crew15PersonCard, card2 = crew10PersonCard };
-                SpaceShipPlayedCards drawCards = new SpaceShipPlayedCards() { card1 = crew15PersonCard, card2 = crew15PersonCard };
-                SpaceShipPlayedCards justOneCard = new SpaceShipPlayedCards() { card1 = crew15PersonCard };
+                List<ISpaceshipCard> spaceship1Won = new List<ISpaceshipCard>() { crew15PersonCard, crew10PersonCard };
+                List<ISpaceshipCard> drawCards = new List<ISpaceshipCard>() { crew15PersonCard, crew15PersonCard };
+                List<ISpaceshipCard> justOneCard = new List<ISpaceshipCard>() { crew15PersonCard };
 
-                yield return new TestCaseData(spaceship1Won, new CardsPlayedResponse() { Winner = crew15PersonCard.Player, Player1 = spaceship1Won.card1.Player, Player2 = spaceship1Won.card2.Player });
-                yield return new TestCaseData(drawCards, new CardsPlayedResponse() { Player1 = drawCards.card1.Player, Player2 = drawCards.card2.Player, Exceptions = Models.Cards.Enums.CardPlayedExceptions.Draw });
+                yield return new TestCaseData(spaceship1Won, new CardsPlayedResponse() { Winner = crew15PersonCard.Player, Players = players, Result = Models.Cards.Enums.CardResponseResult.Win });
+                yield return new TestCaseData(drawCards, new CardsPlayedResponse() { Players = players, Result = Models.Cards.Enums.CardResponseResult.Draw });
+                yield return new TestCaseData(justOneCard, new CardsPlayedResponse() { Players = players, Result = Models.Cards.Enums.CardResponseResult.NotEnoughCards });
             }
+        }
+
+        static List<Player> GetPlayers(int count)
+        {
+            List<Player> players = new List<Player>();
+            for (int i = 0; i < count; i++)
+                players.Add(new Player());
+            return players;
         }
     }
 }

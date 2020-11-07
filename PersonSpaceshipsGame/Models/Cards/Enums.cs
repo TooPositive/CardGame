@@ -14,9 +14,12 @@ namespace PersonSpaceshipsGame.Models.Cards
             Spaceship
         }
 
-        public enum CardPlayedExceptions
+        public enum CardResponseResult
         {
-            Draw
+            Win,
+            Draw,
+            NotEnoughCards,
+            TooMuchCards
         }
     }
 }
