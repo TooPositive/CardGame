@@ -1,0 +1,10 @@
+.chooseCardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+/*.chooseCardContainer > .mat-form-field{
+    width: 15em;
+}*/

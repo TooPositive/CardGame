@@ -1,1 +1,13 @@
-<h1> Card Game </h1>
+<h1 class="mat-display-1" style="text-align:center"> Card Game </h1>
+
+<div class="chooseCardContainer" *ngIf="cardGameService.cardTypes && cardGameService.cardTypes.length > 0">
+  <mat-form-field appearance="fill">
+    <mat-label>Choose Card Type:</mat-label>
+    <mat-select [(value)]="selectedStartCardType" (selectionChange)="startCardTypeChange()">
+      <mat-option *ngFor="let cardType of cardGameService.cardTypes" [value]="cardType">
+        {{cardType.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button class="mat-raised-button" color="accent" (click)="startGameClicked()"> Start Game </button>
+</div>
