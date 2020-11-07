@@ -4,6 +4,8 @@ using PersonSpaceshipsGame.Controllers.CardGame.Responses;
 using PersonSpaceshipsGame.Dtos;
 using PersonSpaceshipsGame.Factories;
 using PersonSpaceshipsGame.Models.Cards;
+using PersonSpaceshipsGame.Models.Cards.Person;
+using PersonSpaceshipsGame.Models.Cards.Spaceships;
 using PersonSpaceshipsGame.Services.CardGameService.Interfaces;
 using PersonSpaceshipsGame.Tests.TestCaseSources.Controllers.Cards;
 using System;
@@ -25,18 +27,18 @@ namespace PersonSpaceshipsGame.Tests.Controllers
         }
 
         [TestCaseSource(typeof(PlayedCardsTestCases), nameof(PlayedCardsTestCases.PersonsPlayedCard))]
-        public void PersonsCardsPlayed(PersonsPlayedCards cards, CardsPlayedResponse desiredResponse)
+        public void PersonsCardsPlayed(List<IPersonCard> cards, ICardsPlayedResponse desiredResponse)
         {
             //TODO: Validate points
-            var response = _cardGameController.PersonsCardsPlayed(cards.personCard1, cards.personCard2);
+            var response = _cardGameController.PersonsCardsPlayed(cards);
             Assert.IsTrue(response.Equals(desiredResponse));
         }
 
         [TestCaseSource(typeof(PlayedCardsTestCases), nameof(PlayedCardsTestCases.SpaceshipsPlayedCards))]
-        public void CardsPlayed(SpaceShipPlayedCards cards, CardsPlayedResponse desiredResponse)
+        public void SpaceShipsCardsPlayed(List<ISpaceshipCard> cards, ICardsPlayedResponse desiredResponse)
         {
             //TODO: Validate points
-            var response = _cardGameController.SpaceShipCardsPlayed(cards.card1, cards.card2);
+            var response = _cardGameController.SpaceShipCardsPlayed(cards);
             Assert.IsTrue(response.Equals(desiredResponse));
         }
     }

@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
+using PersonSpaceshipsGame.Controllers.CardGame.Responses;
 using PersonSpaceshipsGame.Factories;
 using PersonSpaceshipsGame.Models.Cards;
 using PersonSpaceshipsGame.Models.Cards.Person;
 using PersonSpaceshipsGame.Models.Cards.Spaceships;
 using PersonSpaceshipsGame.Services.CardGameService.Interfaces;
 using PersonSpaceshipsGame.Tests.TestCaseSources.Services.Cards;
+using System.Collections.Generic;
 
 namespace PersonSpaceshipsGame.Tests.Services
 {
@@ -22,18 +24,18 @@ namespace PersonSpaceshipsGame.Tests.Services
         }
 
         [TestCaseSource(typeof(ChooseWinnerTestCases), nameof(ChooseWinnerTestCases.PersonTestCases))]
-        public void ChooseWinnerPersonCard(IPersonCard card1, IPersonCard card2, IPersonCard? winnerCard)
+        public void ChooseWinnerPersonCard(List<IPersonCard> cards,  ICardsPlayedResponse desiredResponse)
         {
 
-            IPlayableCard? winnerCardfromService = personCardGameService.ChooseWinnerCard(card1, card2);
-            Assert.AreEqual(winnerCardfromService, winnerCard);
+            ICardsPlayedResponse cardsPlayedResponse = personCardGameService.ChooseWinnerCard(cards);
+            Assert.AreEqual(cardsPlayedResponse, desiredResponse);
         }
 
         [TestCaseSource(typeof(ChooseWinnerTestCases), nameof(ChooseWinnerTestCases.SpaceshipsTestCases))]
-        public void ChooseWinnerSpaceshipCard(ISpaceshipCard card1, ISpaceshipCard card2, ISpaceshipCard? winnerCard)
+        public void ChooseWinnerSpaceshipCard(List<ISpaceshipCard> cards, ICardsPlayedResponse desiredResponse)
         {
-            ISpaceshipCard? winnerCardfromService = spaceshipCardGameService.ChooseWinnerCard(card1, card2);
-            Assert.AreEqual(winnerCardfromService, winnerCard);
+            ICardsPlayedResponse winnerCardfromService = spaceshipCardGameService.ChooseWinnerCard(cards);
+            Assert.AreEqual(winnerCardfromService, desiredResponse);
         }
     }
 }

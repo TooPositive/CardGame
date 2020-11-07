@@ -15,7 +15,7 @@ namespace PersonSpaceshipsGame.Models.Players
 
         public BasePlayer()
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
             Points = 0;
         }
     }

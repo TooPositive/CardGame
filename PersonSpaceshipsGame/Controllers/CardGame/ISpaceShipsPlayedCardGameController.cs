@@ -14,6 +14,6 @@ namespace PersonSpaceshipsGame.Controllers.CardGame
 
         ISpaceshipCardGameService spaceshipCardGameService { get; set; }
 
-        CardsPlayedResponse SpaceShipCardsPlayed(ISpaceshipCard card1, ISpaceshipCard card2);
+        ICardsPlayedResponse SpaceShipCardsPlayed(IEnumerable<ISpaceshipCard> playedCards);
     }
 }

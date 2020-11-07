@@ -22,7 +22,7 @@ namespace PersonSpaceshipsGame.Controllers.CardGame
     {
         public IPersonCardGameService personCardGameService { get; set; }
         public ISpaceshipCardGameService spaceshipCardGameService { get; set; }
-        public int MaxPlayersCount { get; set; } = 2;
+        public int MaxPlayersCount { get; set; } = Models.Players.PlayerStatics.MaxPlayersCount;
 
         public CardGameController()
         {
@@ -30,30 +30,24 @@ namespace PersonSpaceshipsGame.Controllers.CardGame
             spaceshipCardGameService = GameServiceFactory.Create<ISpaceshipCardGameService>();
         }
 
-        public CardsPlayedResponse PersonsCardsPlayed(IPersonCard card1, IPersonCard card2)
+        public ICardsPlayedResponse PersonsCardsPlayed(IEnumerable<IPersonCard> cards)
         {
-            var winnerCard = personCardGameService.ChooseWinnerCard(card1, card2);
-            return CardsPlayed(card1, card2, winnerCard);
-        }
-
-        public CardsPlayedResponse SpaceShipCardsPlayed(ISpaceshipCard card1, ISpaceshipCard card2)
-        {
-            var winnerCard = spaceshipCardGameService.ChooseWinnerCard(card1, card2);
-            return CardsPlayed(card1, card2, winnerCard);
-        }
-
-        private CardsPlayedResponse CardsPlayed(IPlayableCard card1, IPlayableCard card2, IPlayableCard winnerCard)
-        {
-            CardsPlayedResponse cardsPlayedResponse = new CardsPlayedResponse() { Player1 = card1.Player, Player2 = card2.Player };
-
-            if (winnerCard == null)
-                cardsPlayedResponse.Exceptions = Enums.CardPlayedExceptions.Draw;
-            else
-            {
-                cardsPlayedResponse.Winner = winnerCard.Player;
-                winnerCard.Player.Points++;
-            }
+            ICardsPlayedResponse cardsPlayedResponse = personCardGameService.ChooseWinnerCard(cards);
+            AddPointsToWinner(cardsPlayedResponse);
             return cardsPlayedResponse;
+        }
+
+        public ICardsPlayedResponse SpaceShipCardsPlayed(IEnumerable<ISpaceshipCard> cards)
+        {
+            ICardsPlayedResponse cardsPlayedResponse = spaceshipCardGameService.ChooseWinnerCard(cards);
+            AddPointsToWinner(cardsPlayedResponse);
+            return cardsPlayedResponse;
+        }
+
+        private static void AddPointsToWinner(ICardsPlayedResponse cardsPlayedResponse)
+        {
+            if (cardsPlayedResponse.Result == Enums.CardResponseResult.Win)
+                cardsPlayedResponse.Winner.Points++;
         }
     }
 }
