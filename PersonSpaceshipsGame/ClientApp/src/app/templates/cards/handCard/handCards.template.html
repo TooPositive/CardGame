@@ -1,0 +1,15 @@
+<div class="handCardsContainer">
+  <div *ngFor="let card of inputPlayingCards; index as i;">
+    <mat-card class="handCards">
+      <!--class="playingCard" *ngIf="inputPlayingCards"-->
+      <mat-card-header>
+        <!--class="cardTitle"-->
+        <mat-card-title>{{card.getName()}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="cardPower">{{card.getPower()}}</span>
+        <button (click)="cardClicked()">Click</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

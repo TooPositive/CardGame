@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using PersonSpaceshipsGame.Controllers.CardGame;
 using PersonSpaceshipsGame.CQRS.Requests.Cards;
 using PersonSpaceshipsGame.CQRS.Requests.Persons;
+using PersonSpaceshipsGame.CQRS.Requests.Spaceships;
 using PersonSpaceshipsGame.Dtos;
 using PersonSpaceshipsGame.Factories;
 using PersonSpaceshipsGame.Models.Cards;
@@ -48,7 +49,26 @@ namespace PersonSpaceshipsGame.Controllers.API
             var response = _mediator.Send(request: new GetCardTypesRequestModel());
             return response.Result.CardTypes;
         }
-        
+
+        [Route("[action]/{cardType}")]
+        public IEnumerable<IPlayableCard> GetStartingGamesCards(string cardType)
+        {
+            var selectedCardType = _cardGameController.ParseCardType(cardType);
+
+            //TODO: change to factory query method
+            switch (selectedCardType)
+            {
+                case Enums.CardType.Person:
+                    var personResponse = _mediator.Send(request: new GetStartPersonsCardRequestModel());
+                    return personResponse.Result.Cards;
+                case Enums.CardType.Spaceship:
+                    var spaceshipResponse = _mediator.Send(request: new GetStartSpaceshipCardRequestModel());
+                    return spaceshipResponse.Result.Cards;
+                default:
+                    throw new NotImplementedException($"{selectedCardType} is not implemented for starting game.");
+            }
+        }
+
         [HttpPost]
         [Route("[action]")]
         public HttpResponseMessage PostEndOfCardRound([FromBody] PlayedCards cards)

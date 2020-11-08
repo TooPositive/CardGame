@@ -1,10 +1,62 @@
-.chooseCardContainer{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+.chooseCardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-/*.chooseCardContainer > .mat-form-field{
-    width: 15em;
-}*/
+  .chooseCardContainer > button {
+    height: 4em;
+    margin-left: 2em;
+  }
+
+.gameBox {
+  /*height: calc(100vh - 10em);*/
+}
+
+  .gameBox > .gameBoxContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 2em;
+    padding-bottom: 5em;
+  }
+
+.gameBoxContainer > .gameBoxColumn {
+  display: flex;
+  margin-top: 3em;
+  padding: 1.5em;
+  width: 50%;
+  flex-direction: column;
+}
+
+.gameBoxColumn.leftGameBoxColumn {
+  border-right: solid black 0.15em;
+}
+
+.gameBoxColumn.rightGameBoxColumn {
+  border-left: solid black 0.15em;
+}
+
+.handCardsContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  margin-top: 12em;
+}
+
+  .handCardsContainer > .handCards {
+  }
+
+
+    .handCardsContainer > .handCards.active {
+      display: block;
+    }
+
+    .handCardsContainer > .handCards.notActive {
+      display: none;
+    }
+

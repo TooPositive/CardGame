@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonSpaceshipsGame.Models.Database;
 
 namespace PersonSpaceshipsGame.Migrations
 {
     [DbContext(typeof(CardGameContext))]
-    partial class CardGameContextModelSnapshot : ModelSnapshot
+    [Migration("20201108155521_addedCardType")]
+    partial class addedCardType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +27,10 @@ namespace PersonSpaceshipsGame.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("CardType")
+                        .HasColumnName("CardType1")
+                        .HasColumnType("int");
+
                     b.Property<string>("CardTypeString")
                         .HasColumnName("CardType")
                         .HasColumnType("nvarchar(max)");
@@ -35,7 +41,12 @@ namespace PersonSpaceshipsGame.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
 
                     b.ToTable("PersonCards");
                 });
@@ -45,6 +56,10 @@ namespace PersonSpaceshipsGame.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CardType")
+                        .HasColumnName("CardType1")
+                        .HasColumnType("int");
 
                     b.Property<string>("CardTypeString")
                         .HasColumnName("CardType")
@@ -56,7 +71,12 @@ namespace PersonSpaceshipsGame.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
 
                     b.ToTable("SpaceshipCards");
                 });
@@ -73,6 +93,20 @@ namespace PersonSpaceshipsGame.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("PersonSpaceshipsGame.Models.Cards.Person.PersonCard", b =>
+                {
+                    b.HasOne("PersonSpaceshipsGame.Models.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId");
+                });
+
+            modelBuilder.Entity("PersonSpaceshipsGame.Models.Cards.Spaceships.SpaceshipCard", b =>
+                {
+                    b.HasOne("PersonSpaceshipsGame.Models.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId");
                 });
 #pragma warning restore 612, 618
         }

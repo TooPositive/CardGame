@@ -1,28 +1,31 @@
 ﻿using PersonSpaceshipsGame.Models.Players;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PersonSpaceshipsGame.Models.Cards.Enums;
 
 namespace PersonSpaceshipsGame.Models.Cards.Spaceships
 {
     public class SpaceshipCard : ISpaceshipCard
     {
-        public SpaceshipCard(Guid id, int crewCount, string name, Player player)
+        [Column("CardType")]
+        public string CardTypeString
         {
-            Id = id;
-            CrewCount = crewCount;
-            Name = name;
-            Player = player;
+            get { return CardType.ToString(); }
+            private set { CardType = Enums.ParseEnum<CardType>(value); }
         }
 
-        public Enums.CardType CardType { get; set; } = Enums.CardType.Spaceship;
-
+        [NotMapped]
+        public CardType CardType { get; set; } = CardType.Spaceship;
         public Guid Id { get; set; }
         public int CrewCount { get; set; }
         public string Name { get; set; }        
+
+        [NotMapped]
         public Player Player { get; set; }
 
         public int CompareTo(ISpaceshipCard other)
