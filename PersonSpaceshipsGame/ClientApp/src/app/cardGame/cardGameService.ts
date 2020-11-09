@@ -5,6 +5,7 @@ import { PersonCard } from '../models/cards/PersonCard';
 import { SpaceshipCard } from '../models/cards/SpaceshipCard';
 import { PlayableCard } from '../models/cards/PlayableCard';
 import { PersonCardDto } from '../Dtos/PersonCardDto';
+import { Player } from '../models/players/Player';
 
 
 
@@ -20,7 +21,6 @@ export class CardGameService {
 
   getCardTypes(): CardTypeDto[] {
     let cardTypes: CardTypeDto[];
-
     this.http.get(`${this.url}/Game/GetCardTypes`).subscribe((data: CardTypeDto[]) => { console.log(data); this.cardTypes = data; });
     return cardTypes;
   }
@@ -28,8 +28,6 @@ export class CardGameService {
   async getStartingGameCards(selectedCardType: string): Promise<any[]> {
     let data = await this.http.get(`${this.url}/Game/GetStartingGamesCards/${selectedCardType}`).toPromise();
     let dataToReturn = [];
-
-
 
     //TODO: think about open/close principle
     switch (selectedCardType.trim()) {
@@ -53,8 +51,6 @@ export class CardGameService {
   }
 
   getGroupedPlayerCards(cards: PlayableCard[]) {
-
-
     let players = cards.map(x => x.player.id).filter((value, index, array) => array.indexOf(value) === index);
     var dataToReturnGroupedByPlayer = [];
     for (var i = 0; i < players.length; i++) {
@@ -63,6 +59,10 @@ export class CardGameService {
 
     console.log(dataToReturnGroupedByPlayer);
     return dataToReturnGroupedByPlayer;
+  }
 
+  async postRoundPlayedCards(cards: PlayableCard[]) : Promise<Player> {
+    let winningPersonResult = await this.http.post(`${this.url}/Game/PostRoundPlayedCards`, JSON.stringify(cards)).toPromise();
+    return winningPersonResult as Player;
   }
 }

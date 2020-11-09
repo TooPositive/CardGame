@@ -4,6 +4,7 @@ import { CardGameService } from '../cardGame/cardGameService'
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PlayableCard } from '../models/cards/PlayableCard';
+import { Player } from '../models/players/Player';
 
 @Component({
   selector: 'app-home',
@@ -21,9 +22,12 @@ export class HomeComponent {
   player2Cards: PlayableCard[] = [];
 
   //TODO: Implement to allow more users
-  player1PlayedCard: PlayableCard;  
-  player2PlayedCard: PlayableCard;  
+  firstPlayedCard: PlayableCard;  
+  secondPlayedCard: PlayableCard;  
 
+  //TODO: better user move tracking
+  isPlayer1Move = true;
+  presentingRoundResult = false;
 
   isPlaying = false;
   isGameEnded = false;
@@ -48,8 +52,60 @@ export class HomeComponent {
     }
   }
 
-  receiveMessage($event) {
-    console.log($event);
+  // TODO: move logic to api, create rounds, every move should be approve by api instead of just js
+  receiveCardClickedMessage($event) {
+    let cardObject = JSON.parse($event) as PlayableCard;
+    this.cardPlayed(cardObject);
   }
 
+
+  //TODO: create better logic for rounds
+  cardPlayed(cardClicked: PlayableCard) {
+
+    let card = this.getAllPlayingCards().filter(x => x.id == cardClicked.id && x.player.id == cardClicked.player.id)[0];
+    //TODO: better error handling
+    if (!card) {
+      console.log(`error didn't find clicked card in players hand.`)
+      return;
+    }
+
+    if (this.isPlayer1Move)
+      this.firstPlayedCard = card;
+    else
+      this.secondPlayedCard = card;
+
+    console.log(card.getName());
+
+    this.removeCardFromHand(card);
+    this.endMove();
+
+  }
+
+  getAllPlayingCards(): PlayableCard[] {
+    return this.player1Cards.concat(this.player2Cards);
+  }
+
+  removeCardFromHand(card: PlayableCard) {
+    if (this.isPlayer1Move)
+      this.player1Cards = this.player1Cards.filter(x => x.id !== card.id);
+    else
+      this.player2Cards = this.player2Cards.filter(x => x.id !== card.id);
+  }
+
+  endMove() {
+    //TODO: figure out better move logic
+    if (this.isPlayer1Move && this.firstPlayedCard)
+      this.isPlayer1Move = !this.isPlayer1Move;
+    else if (!this.isPlayer1Move && this.secondPlayedCard)
+      this.endRound();
+    else
+      console.log(`One of the players didn't place their card!`)
+  }
+
+  endRound() {
+    this.presentingRoundResult = true;    
+    this.isPlayer1Move = true;
+    // api call to service with cards played
+    // add points to player
+  }
 }

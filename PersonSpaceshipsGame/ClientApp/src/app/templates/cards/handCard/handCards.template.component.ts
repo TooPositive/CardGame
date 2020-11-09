@@ -18,9 +18,9 @@ export class HandCardsComponent {
     this.inputPlayingCards = value;
   }
 
-  cardClicked() {
-    console.log('event emitted');
-    this.messageEvent.emit("Hand Card Clicked");
+  cardClicked(card: PlayableCard) {
+    //TODO: Figure out the better way to notify about card click event
+    //this.messageEvent.emit(`Hand card clicked: from player - ${card.player.id}, card - ${card.id}`);
+    this.messageEvent.emit(JSON.stringify(card));
   }
-
 }

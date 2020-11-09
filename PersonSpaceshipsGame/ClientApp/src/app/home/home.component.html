@@ -14,28 +14,33 @@
   <button class="mat-raised-button" color="accent" (click)="startGameClicked()"> Start Game </button>
 </div>
 
+<!--TODO: Change to foreach-->
 <div id="gameConent" *ngIf="isPlaying">
   <div class="gameBox">
-    <div class="gameBoxContainer" *ngIf="player1PlayedCard || player2PlayedCard">
+    <div class="gameBoxContainer" *ngIf="firstPlayedCard || secondPlayedCard">
       <div class="gameBoxColumn leftGameBoxColumn">
-        <div *ngIf="playingCard">
-          <app-playingCard [inputPlayingCard]="player1PlayedCard"></app-playingCard>
+        <!--TODO: Add empty card with name "placeholder for a card"-->
+        <div *ngIf="firstPlayedCard">
+          <app-playingCard [inputPlayingCard]="firstPlayedCard"></app-playingCard>
         </div>
       </div>
       <div class="gameBoxColumn rightGameBoxColumn">
-        <div *ngIf="playingCard2">
-          <app-playingCard [inputPlayingCard]="player2PlayedCard"></app-playingCard>
+        <!--TODO: Add empty card with name "placeholder for a card"-->
+        <div *ngIf="secondPlayedCard">
+          <app-playingCard [inputPlayingCard]="secondPlayedCard"></app-playingCard>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="handCardsContainer">
-    <div class="handCards active">
-      <app-handCards (messageEvent)="receiveMessage($event)" [inputPlayingCards]="player1Cards"></app-handCards>
+  <div class="handCardsContainer" *ngIf="!presentingRoundResult">
+    <div [className]="isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
+      <spna>Player1</spna>
+      <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="player1Cards"></app-handCards>
     </div>
-    <div class="handCards notActive">
-      <app-handCards [inputPlayingCards]="player2Cards"></app-handCards>
+    <div [className]="!isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
+      <span>Player2</span>
+      <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="player2Cards"></app-handCards>
     </div>
   </div>
 </div>
