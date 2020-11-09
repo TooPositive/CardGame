@@ -44,6 +44,12 @@ namespace PersonSpaceshipsGame.Controllers.CardGame
             return cardsPlayedResponse;
         }
 
+        public Enums.CardType ParseCardType(string cardTypeName)
+        {
+            Enum.TryParse(cardTypeName, out Enums.CardType cardType); //TODO: handle exception
+            return cardType;
+        }
+
         private static void AddPointsToWinner(ICardsPlayedResponse cardsPlayedResponse)
         {
             if (cardsPlayedResponse.Result == Enums.CardResponseResult.Win)

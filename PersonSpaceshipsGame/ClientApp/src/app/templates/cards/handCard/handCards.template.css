@@ -1,0 +1,18 @@
+.handCardsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+}
+
+  .handCardsContainer .handCards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: solid black 0.1em;
+  }
+
+    .handCardsContainer .handCards .cardPower {
+      font-weight: bold;
+      font-size: large;
+    }

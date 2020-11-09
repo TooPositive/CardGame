@@ -9,5 +9,6 @@ namespace PersonSpaceshipsGame.Models.Players
     public static class PlayerStatics
     {
         public static int MaxPlayersCount = 2;
+        public static int MaxHandCards = 3;
     }
 }

@@ -17,14 +17,14 @@ namespace PersonSpaceshipsGame.Tests.TestCaseSources.Services.Cards
         {
             get
             {
-                IPersonCard mass10PersonCard = new PersonCard(new Guid(), 10, "Mass 10", new Player());
-                IPersonCard mass15PersonCard = new PersonCard(new Guid(), 15, "Mass 15", new Player());
+                IPersonCard mass10PersonCard = new PersonCard { Id = new Guid(), Mass = 10, Name = "Mass 10", Player = new Player() };
+                IPersonCard mass15PersonCard = new PersonCard { Id = new Guid(), Mass = 15, Name = "Mass 15", Player = new Player() };
 
                 List<IPersonCard> mass15CardWin = new List<IPersonCard>() { mass15PersonCard, mass10PersonCard };
                 List<IPersonCard> drawCards = new List<IPersonCard>() { mass15PersonCard, mass15PersonCard };
                 List<IPersonCard> oneCard = new List<IPersonCard>() { mass15PersonCard };
 
-                yield return new TestCaseData(mass15CardWin, new CardsPlayedResponse() { Players = mass15CardWin.Select(x=> x.Player), Winner = mass15PersonCard.Player, Result = Models.Cards.Enums.CardResponseResult.Win });
+                yield return new TestCaseData(mass15CardWin, new CardsPlayedResponse() { Players = mass15CardWin.Select(x => x.Player), Winner = mass15PersonCard.Player, Result = Models.Cards.Enums.CardResponseResult.Win });
                 yield return new TestCaseData(drawCards, new CardsPlayedResponse() { Players = drawCards.Select(x => x.Player), Result = Models.Cards.Enums.CardResponseResult.Draw });
                 yield return new TestCaseData(oneCard, new CardsPlayedResponse() { Players = oneCard.Select(x => x.Player), Result = Models.Cards.Enums.CardResponseResult.NotEnoughCards });
             }
@@ -34,8 +34,8 @@ namespace PersonSpaceshipsGame.Tests.TestCaseSources.Services.Cards
         {
             get
             {
-                ISpaceshipCard crewCount10PersonCard = new SpaceshipCard(new Guid(), 10, "CrewCount 10", new Player());
-                ISpaceshipCard crewCount15PersonCard = new SpaceshipCard(new Guid(), 15, "CrewCount 15", new Player());
+                ISpaceshipCard crewCount10PersonCard = new SpaceshipCard { Id = new Guid(), CrewCount = 10, Name = "CrewCount 10", Player = new Player() };
+                ISpaceshipCard crewCount15PersonCard = new SpaceshipCard { Id = new Guid(), CrewCount = 15, Name = "CrewCount 15", Player = new Player() };
 
                 List<ISpaceshipCard> crew15WinCards = new List<ISpaceshipCard>() { crewCount15PersonCard, crewCount10PersonCard };
                 List<ISpaceshipCard> drawCards = new List<ISpaceshipCard>() { crewCount15PersonCard, crewCount15PersonCard };

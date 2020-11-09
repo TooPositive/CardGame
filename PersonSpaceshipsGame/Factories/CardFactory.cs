@@ -25,16 +25,17 @@ namespace PersonSpaceshipsGame.Factories
             }
         }
 
-        public static T Create<T>(string playedCard)
-        {
-            if (typeof(T) == typeof(IPersonCard))
-            {
-                return (T)(IPersonCard)new PersonCard(playedCard);
-            }
-            else
-            {
-                throw new NotImplementedException(String.Format("Creation of {0} interface is not supported yet.", typeof(T)));
-            }
-        }
+        //TODO: delete; not needed
+        //public static T Create<T>(string playedCard)
+        //{
+        //    if (typeof(T) == typeof(IPersonCard))
+        //    {
+        //        return (T)(IPersonCard)new PersonCard(playedCard);
+        //    }
+        //    else
+        //    {
+        //        throw new NotImplementedException(String.Format("Creation of {0} interface is not supported yet.", typeof(T)));
+        //    }
+        //}
     }
 }

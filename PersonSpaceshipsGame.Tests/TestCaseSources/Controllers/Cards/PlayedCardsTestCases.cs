@@ -23,8 +23,8 @@ namespace PersonSpaceshipsGame.Tests.TestCaseSources.Controllers.Cards
             get
             {
                 List<Player> players = GetPlayers(2);
-                IPersonCard mass10PersonCard = new PersonCard(new Guid(), 10, "Mass 10", players[0]);
-                IPersonCard mass15PersonCard = new PersonCard(new Guid(), 15, "Mass 15", players[1]);
+                IPersonCard mass10PersonCard = new PersonCard { Id = new Guid(), Mass = 10, Name = "Mass 10", Player = players[0] };
+                IPersonCard mass15PersonCard = new PersonCard { Id = new Guid(), Mass = 15, Name = "Mass 15", Player = players[1] };
 
                 List<IPersonCard> person1WonCards = new List<IPersonCard>() { mass15PersonCard, mass10PersonCard };
                 List<IPersonCard> drawCards = new List<IPersonCard>() { mass15PersonCard, mass15PersonCard };
@@ -42,8 +42,8 @@ namespace PersonSpaceshipsGame.Tests.TestCaseSources.Controllers.Cards
             get
             {
                 List<Player> players = GetPlayers(2);
-                ISpaceshipCard crew10PersonCard = new SpaceshipCard(new Guid(), 10, "Crew 10", players[0]);
-                ISpaceshipCard crew15PersonCard = new SpaceshipCard(new Guid(), 15, "Crew 15", players[1]);
+                ISpaceshipCard crew10PersonCard = new SpaceshipCard { Id = new Guid(), CrewCount = 10, Name = "Crew 10", Player = players[0] };
+                ISpaceshipCard crew15PersonCard = new SpaceshipCard { Id = new Guid(), CrewCount = 15, Name = "Crew 15", Player = players[1] };
 
                 List<ISpaceshipCard> spaceship1Won = new List<ISpaceshipCard>() { crew15PersonCard, crew10PersonCard };
                 List<ISpaceshipCard> drawCards = new List<ISpaceshipCard>() { crew15PersonCard, crew15PersonCard };

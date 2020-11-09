@@ -19,5 +19,6 @@ namespace PersonSpaceshipsGame.Models.Database
 
         public DbSet<PersonCard> PersonCards { get; set; }
         public DbSet<SpaceshipCard> SpaceshipCards { get; set; }
+        public DbSet<Player> Players { get; set; }
     }
 }
