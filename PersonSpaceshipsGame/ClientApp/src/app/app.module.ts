@@ -13,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module'
 import { PlayingCardComponent } from './templates/cards/playingCard/playingCard.template.component';
 import { HandCardsComponent } from './templates/cards/handCard/handCards.template.component'
-
 @NgModule({
   declarations: [
     AppComponent,

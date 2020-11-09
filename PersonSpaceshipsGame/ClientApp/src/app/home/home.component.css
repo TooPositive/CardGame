@@ -1,3 +1,4 @@
+
 .chooseCardContainer {
   display: flex;
   flex-direction: row;
@@ -59,4 +60,3 @@
     .handCardsContainer > .handCards.notActive {
       display: none;
     }
-
