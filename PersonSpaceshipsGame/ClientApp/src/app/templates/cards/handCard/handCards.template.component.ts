@@ -13,14 +13,10 @@ export class HandCardsComponent {
 
   ngOnChanges(changePlayableCard: any) {
     let value = changePlayableCard.inputPlayingCards.currentValue as PlayableCard[];
-    //console.log(`init HandCardsComponent from: ${value[0].getName()}`);
-    console.log(`init HandCardsComponent from: ${changePlayableCard.inputPlayingCards.currentValue[0]}`);
     this.inputPlayingCards = value;
   }
 
-  cardClicked() {
-    console.log('event emitted');
-    this.messageEvent.emit("Hand Card Clicked");
+  cardClicked(card: PlayableCard) {
+    this.messageEvent.emit(JSON.stringify(card));
   }
-
 }

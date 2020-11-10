@@ -5,6 +5,7 @@ using PersonSpaceshipsGame.CQRS.Requests;
 using PersonSpaceshipsGame.CQRS.Requests.Persons;
 using PersonSpaceshipsGame.Dtos;
 using PersonSpaceshipsGame.Factories;
+using PersonSpaceshipsGame.Models;
 using PersonSpaceshipsGame.Models.Cards;
 using PersonSpaceshipsGame.Models.Cards.Person;
 using PersonSpaceshipsGame.Models.Cards.Spaceships;
@@ -30,6 +31,33 @@ namespace PersonSpaceshipsGame.Controllers.CardGame
             spaceshipCardGameService = GameServiceFactory.Create<ISpaceshipCardGameService>();
         }
 
+
+        public Enums.CardType ParseCardType(string cardTypeName)
+        {
+            Enum.TryParse(cardTypeName, out Enums.CardType cardType); //TODO: handle exception
+            return cardType;
+        }
+
+        //public Player? ChooseWinnerFromRoundCardsPlayed(PlayableCardDto[] cards)
+        //{
+        //    //TODO: better error handling
+        //    if (cards.Select(x => x.CardType).Distinct().Count() != 1)
+        //        return null;
+
+        //    var cardType = ParseCardType(cards.Select(x => x.CardType).First());
+
+        //    switch (cardType)
+        //    {
+        //        case Enums.CardType.Person:
+                    
+        //            break;
+        //        case Enums.CardType.Spaceship:
+        //            break;
+        //        default:
+        //            return null;//TODO: Better error handling
+        //    }
+        //}
+
         public ICardsPlayedResponse PersonsCardsPlayed(IEnumerable<IPersonCard> cards)
         {
             ICardsPlayedResponse cardsPlayedResponse = personCardGameService.ChooseWinnerCard(cards);
@@ -42,12 +70,6 @@ namespace PersonSpaceshipsGame.Controllers.CardGame
             ICardsPlayedResponse cardsPlayedResponse = spaceshipCardGameService.ChooseWinnerCard(cards);
             AddPointsToWinner(cardsPlayedResponse);
             return cardsPlayedResponse;
-        }
-
-        public Enums.CardType ParseCardType(string cardTypeName)
-        {
-            Enum.TryParse(cardTypeName, out Enums.CardType cardType); //TODO: handle exception
-            return cardType;
         }
 
         private static void AddPointsToWinner(ICardsPlayedResponse cardsPlayedResponse)

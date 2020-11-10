@@ -1,6 +1,5 @@
 ﻿using PersonSpaceshipsGame.Controllers.CardGame.Responses;
 using PersonSpaceshipsGame.Models.Cards;
-using PersonSpaceshipsGame.Models.Cards.Comparers;
 using PersonSpaceshipsGame.Models.Cards.Person;
 using PersonSpaceshipsGame.Models.Cards.Spaceships;
 using PersonSpaceshipsGame.Models.Players;
@@ -21,8 +20,7 @@ namespace PersonSpaceshipsGame.Services
         //TODO: Think about merging this method to one with custom comparer as parameter
         public ICardsPlayedResponse ChooseWinnerCard(IEnumerable<IPersonCard> cards)
         {
-            cards.ToList().Sort(new PersonComparer());
-            List<IPersonCard> sortedCardsList = cards.ToList();
+            List<IPersonCard> sortedCardsList = cards.OrderByDescending(x => x.Mass).ToList();
 
             if (sortedCardsList.Count <= 1)
                 return new CardsPlayedResponse() { Players = sortedCardsList.Select(x => x.Player), Result = Enums.CardResponseResult.NotEnoughCards };

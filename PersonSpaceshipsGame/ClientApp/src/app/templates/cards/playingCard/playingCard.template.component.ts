@@ -16,7 +16,6 @@ export class PlayingCardComponent {
   spaceShipPlayingCard: SpaceshipCard;
 
   ngOnChanges(changePlayableCard: any) {
-    console.log(`init playingCardComponent from: ${changePlayableCard.inputPlayingCard.currentValue.name}`)
     //TODO: Better object creation, abstraction/factories/different components ?
     this.inputPlayingCard = changePlayableCard.inputPlayingCard.currentValue;
     switch (this.inputPlayingCard.cardType) {

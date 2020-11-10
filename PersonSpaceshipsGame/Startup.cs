@@ -13,6 +13,8 @@ using PersonSpaceshipsGame.Models.Database;
 using System;
 using MediatR;
 using System.Reflection;
+using AutoMapper;
+using PersonSpaceshipsGame.Models.Mapping;
 
 namespace PersonSpaceshipsGame
 {
@@ -38,6 +40,15 @@ namespace PersonSpaceshipsGame
             //services.AddDbContext<CardGameContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("CardGameContextConnectionString")));
             services.AddDbContext<CardGameContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CardGame;Trusted_Connection=True;"));
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            //auto mapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
         }
 
