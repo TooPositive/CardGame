@@ -58,12 +58,10 @@ namespace PersonSpaceshipsGame.Controllers.API
         }
 
         [Route("[action]/{cardType}")]
-        public IEnumerable<IPlayableCard> GetStartingGamesCards(string cardType)
+        public IEnumerable<IPlayableCard> GetStartingGamesCards(Enums.CardType cardType)
         {
-            var selectedCardType = _cardGameController.ParseCardType(cardType);
-
             //TODO: change to factory query method
-            switch (selectedCardType)
+            switch (cardType)
             {
                 case Enums.CardType.Person:
                     var personResponse = _mediator.Send(request: new GetStartPersonsCardRequestModel());
@@ -72,7 +70,7 @@ namespace PersonSpaceshipsGame.Controllers.API
                     var spaceshipResponse = _mediator.Send(request: new GetStartSpaceshipCardRequestModel());
                     return spaceshipResponse.Result.Cards;
                 default:
-                    throw new NotImplementedException($"{selectedCardType} is not implemented for starting game.");
+                    throw new NotImplementedException($"{cardType} is not implemented for starting game.");
             }
         }
 
