@@ -2,45 +2,62 @@
 
 <h1 class="mat-display-1" style="text-align:center"> Card Game </h1>
 
-<div class="chooseCardContainer" *ngIf="cardGameService.cardTypes && cardGameService.cardTypes.length > 0 && !isPlaying">
+<div class="chooseCardContainer" *ngIf="cardGameService.cardTypes && cardGameService.cardTypes.length > 0 && !cardGameService.isPlaying">
   <mat-form-field appearance="fill">
     <mat-label>Choose Card Type:</mat-label>
-    <mat-select [(value)]="selectedStartCardType" (selectionChange)="startCardTypeChange()">
+    <mat-select [(value)]="cardGameService.selectedStartCardType">
       <mat-option *ngFor="let cardType of cardGameService.cardTypes" [value]="cardType">
         {{cardType.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <button class="mat-raised-button" color="accent" (click)="startGameClicked()"> Start Game </button>
+  <button class="mat-raised-button" color="accent" (click)="cardGameService.startGameClicked()"> Start Game </button>
+</div>
+
+
+
+<!--TODO: refactor, allow more users, foreach at least-->
+<div id="playerScores" class="playerContainer" *ngIf="cardGameService.isPlaying">
+  <span>{{cardGameService.player1.id}} - <b> Points {{cardGameService.player1.points}} </b></span>
+  <span>{{cardGameService.player2.id}} - <b> Points {{cardGameService.player2.points}} </b></span>
+  <!--<div id="player1" class="leftPlayer">
+
+  </div>
+  <div id="player2" class="rightPlayer">
+
+  </div>-->
 </div>
 
 <!--TODO: Change to foreach-->
-<div id="gameConent" *ngIf="isPlaying">
-  <div class="gameBox">
-    <div class="gameBoxContainer" *ngIf="firstPlayedCard || secondPlayedCard">
-      <div class="gameBoxColumn leftGameBoxColumn">
-        <!--TODO: Add empty card with name "placeholder for a card"-->
-        <div *ngIf="firstPlayedCard">
-          <app-playingCard [inputPlayingCard]="firstPlayedCard"></app-playingCard>
-        </div>
+<div id="gameConent" *ngIf="cardGameService.isPlaying">
+  <div class="gameBoxContainer" *ngIf="cardGameService.firstPlayedCard || cardGameService.secondPlayedCard">
+    <div class="gameBoxColumn leftGameBoxColumn">
+      <!--TODO: Add empty card with name "placeholder for a card"-->
+      <div *ngIf="cardGameService.firstPlayedCard">
+        <app-playingCard [inputPlayingCard]="cardGameService.firstPlayedCard"></app-playingCard>
       </div>
-      <div class="gameBoxColumn rightGameBoxColumn">
-        <!--TODO: Add empty card with name "placeholder for a card"-->
-        <div *ngIf="secondPlayedCard">
-          <app-playingCard [inputPlayingCard]="secondPlayedCard"></app-playingCard>
-        </div>
+    </div>
+    <div class="gameBoxColumn rightGameBoxColumn">
+      <!--TODO: Add empty card with name "placeholder for a card"-->
+      <div *ngIf="cardGameService.secondPlayedCard">
+        <app-playingCard [inputPlayingCard]="cardGameService.secondPlayedCard"></app-playingCard>
       </div>
     </div>
   </div>
 
-  <div class="handCardsContainer" *ngIf="!presentingRoundResult">
-    <div [className]="isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
+  <div class="handCardsContainer" *ngIf="!cardGameService.presentingRoundResult">
+    <div [className]="cardGameService.isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
       <spna>Player1</spna>
-      <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="player1Cards"></app-handCards>
+      <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="cardGameService.player1Cards"></app-handCards>
     </div>
-    <div [className]="!isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
+    <div [className]="!cardGameService.isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
       <span>Player2</span>
-      <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="player2Cards"></app-handCards>
+      <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="cardGameService.player2Cards"></app-handCards>
     </div>
   </div>
+</div>
+
+<div id="resultConent" class="roundResult" *ngIf="cardGameService.presentingRoundResult">
+  <h1>Decision - {{cardGameService.endRoundDecision}}</h1>
+  <button class="mat-raised-button" color="accent" (click)="cardGameService.initGameServiceState()"> Play again!</button>
 </div>
