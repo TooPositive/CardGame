@@ -20,6 +20,10 @@ export class HomeComponent {
     this.cardGameService = new CardGameService(http);
   }
 
+  initCardsDropdown() {
+    this.cardGameService.initCardTypes();
+  }
+
   async startGameClicked() {
     await this.cardGameService.startGameClicked();
   }

@@ -8,9 +8,10 @@ import { PersonCardDto } from '../Dtos/PersonCardDto';
 import { Player } from '../models/players/Player';
 import { Observable } from 'rxjs';
 import { CardsPlayedResponseDto } from '../Dtos/CardsPlayedResponseDto';
+import { Injectable } from '@angular/core';
 
 
-
+@Injectable()
 export class CardGameService {
   url: string = "https://localhost:44306/api";
 
@@ -38,14 +39,14 @@ export class CardGameService {
   isGameEnded = false;
 
   constructor(private http: HttpClient) {
-    this.cardTypes = this.getCardTypes();
+    
   }
 
 
-  getCardTypes(): CardTypeDto[] {
+  initCardTypes() {
     let cardTypes: CardTypeDto[];
     this.http.get(`${this.url}/Game/GetCardTypes`).subscribe((data: CardTypeDto[]) => { this.cardTypes = data; });
-    return cardTypes;
+    this.cardTypes = cardTypes;
   }
 
   async getStartingGameCards(selectedCardType: string): Promise<any[]> {
@@ -66,7 +67,6 @@ export class CardGameService {
           dataToReturn.push(new SpaceshipCard(x.id, x.name, x.player, x.crewCount));
         });
         return dataToReturn as SpaceshipCard[];
-        break;
       default:
         console.log(`Wrong selected card type.`); // TODO: better error handling
         return [];
@@ -92,13 +92,17 @@ export class CardGameService {
     let response = await this.getStartingGameCards(this.selectedStartCardType.name);
     if (response.length > 0) {
       //TODO: Better handling more users + refactor assigining users
-      let playersCards = this.getGroupedPlayerCards(response);
-      this.player1Cards = playersCards[0];
-      this.player1 = this.player1Cards[0].player;
-      this.player2Cards = playersCards[1];
-      this.player2 = this.player2Cards[0].player;
-      this.isPlaying = true;
+      this.assignCardsToPlayers(response);
     }
+  }
+
+  public assignCardsToPlayers(cardResponse: any[]) {
+    let playersCards = this.getGroupedPlayerCards(cardResponse);
+    this.player1Cards = playersCards[0];
+    this.player1 = this.player1Cards[0].player;
+    this.player2Cards = playersCards[1];
+    this.player2 = this.player2Cards[0].player;
+    this.isPlaying = true;
   }
 
   public initGameServiceState() {
