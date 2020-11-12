@@ -1,6 +1,9 @@
-<h1> Card Game </h1>
-
 <h1 class="mat-display-1" style="text-align:center"> Card Game </h1>
+
+<div id="startCardGame"  *ngIf="!cardGameService.cardTypes">
+  <button class="mat-raised-button" color="accent" (click)="initCardsDropdown()"> Play a Game! </button>
+</div>
+
 
 <div class="chooseCardContainer" *ngIf="cardGameService.cardTypes && cardGameService.cardTypes.length > 0 && !cardGameService.isPlaying">
   <mat-form-field appearance="fill">

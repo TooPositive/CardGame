@@ -9,6 +9,11 @@
     margin-left: 2em;
   }
 
+.startCardGame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .playerContainer {
   display: flex;
