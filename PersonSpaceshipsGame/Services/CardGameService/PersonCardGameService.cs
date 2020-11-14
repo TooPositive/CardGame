@@ -1,17 +1,10 @@
 ﻿using PersonSpaceshipsGame.Controllers.CardGame.Responses;
 using PersonSpaceshipsGame.Models.Cards;
 using PersonSpaceshipsGame.Models.Cards.Person;
-using PersonSpaceshipsGame.Models.Cards.Spaceships;
 using PersonSpaceshipsGame.Models.Players;
 using PersonSpaceshipsGame.Services.CardGameService.Interfaces;
-using PersonSpaceshipsGame.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonSpaceshipsGame.Services
 {

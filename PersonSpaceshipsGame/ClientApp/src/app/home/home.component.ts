@@ -5,11 +5,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PlayableCard } from '../models/cards/PlayableCard';
 import { Player } from '../models/players/Player';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  animations: [
+    trigger('playerWon', [
+      state('true', style({ 'font-size': '1.5em' })),
+      state('false', style({ 'font-size': '1em' })),
+      transition('false <=> true', animate(500))
+    ])
+  ]  
 })
 
 @Injectable()

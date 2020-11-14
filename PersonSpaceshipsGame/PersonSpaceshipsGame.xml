@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PersonSpaceshipsGame</name>
+    </assembly>
+    <members>
+        <member name="M:PersonSpaceshipsGame.Controllers.API.GameController.GetCardTypes">
+            <summary>
+            Get all card types
+            </summary>
+            <returns>The list of CardTypeDto's</returns>
+            <remarks>
+            Sample output:
+            
+                 [
+                  {
+                    "name": "Person"
+                  },
+                  {
+                    "name": "Spaceship"
+                  }
+                 ]
+            </remarks>
+        </member>
+        <member name="M:PersonSpaceshipsGame.Controllers.API.GameController.GetStartingGamesCards(PersonSpaceshipsGame.Models.Cards.Enums.CardType)">
+            <summary>
+            Gets starting cards acording to send CardType ( Person or Spaceship ) 
+            </summary>
+            <remarks>
+            Sample response like:
+            
+                    [
+                       {
+                         "id": "32dc22ed-c7c1-4d69-9b05-667484824ab4",
+                         "mass": 70,
+                         "name": "Loud Person",
+                         "cardTypeString": "Person",
+                         "cardType": 0,
+                         "player": {
+                           "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+                           "points": 23,
+                           "cards": null
+                         }
+                     },
+                       {
+                         "id": "b5378c90-caa6-41e1-ab4d-1dd624fc401e",
+                         "mass": 35,
+                         "name": "Popular Person",
+                         "cardTypeString": "Person",
+                         "cardType": 0,
+                         "player": {
+                             "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+                           "points": 23,
+                           "cards": null
+                         }
+                     },
+                       {
+                         "id": "fca28765-d903-4ced-9453-904aa02be26a",
+                         "mass": 55,
+                         "name": "Pretty Person",
+                         "cardTypeString": "Person",
+                         "cardType": 0,
+                         "player": {
+                             "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+                           "points": 23,
+                           "cards": null
+                         }
+                     },
+                       {
+                         "id": "083faa7b-1fda-4dac-ba09-14a63857f1d9",
+                         "mass": 1,
+                         "name": "Funny Person",
+                         "cardTypeString": "Person",
+                         "cardType": 0,
+                         "player": {
+                             "id": "2dd5aae4-7fb3-4d6a-a679-7c971466f1bb",
+                           "points": 17,
+                           "cards": null
+                         }
+                     },
+                       {
+                         "id": "fca28765-d903-4ced-9453-904aa02be26a",
+                         "mass": 55,
+                         "name": "Pretty Person",
+                         "cardTypeString": "Person",
+                         "cardType": 0,
+                         "player": {
+                             "id": "2dd5aae4-7fb3-4d6a-a679-7c971466f1bb",
+                           "points": 17,
+                           "cards": null
+                         }
+                     },
+                       {
+                         "id": "58e9c1f8-6017-49cb-a07f-0cdf82efa01d",
+                         "mass": 25,
+                         "name": "Brave Person",
+                         "cardTypeString": "Person",
+                         "cardType": 0,
+                         "player": {
+                             "id": "2dd5aae4-7fb3-4d6a-a679-7c971466f1bb",
+                           "points": 17,
+                           "cards": null
+                         }
+                     }
+                     ]
+            </remarks>
+            <param name="cardType"></param>
+            <returns>List of playable cards</returns>
+        </member>
+        <member name="M:PersonSpaceshipsGame.Controllers.API.GameController.PostRoundPlayedCards(PersonSpaceshipsGame.Dtos.PlayableCardDto[])">
+            <summary>
+            Posting players round cards
+            </summary>
+            <remarks>
+            Sample respone like:
+            
+                 {
+                   "winner": {
+                     "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+                     "points": 1,
+                     "cards": null
+                   },
+                   "result": 0
+                 }
+            </remarks>
+            <param name="cards"></param>
+            <returns>CardsPlayedResponseDto which has round result and winner player object</returns>
+        </member>
+    </members>
+</doc>

@@ -28,13 +28,5 @@ namespace PersonSpaceshipsGame.Models.Cards.Spaceships
         [NotMapped]
         public Player Player { get; set; }
 
-        public int CompareTo(ISpaceshipCard other)
-        {
-            if (this.CrewCount < other.CrewCount)
-                return -1;
-            if (this.CrewCount == other.CrewCount)
-                return 0;
-            return 1;
-        }
     }
 }

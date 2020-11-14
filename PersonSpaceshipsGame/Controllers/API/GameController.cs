@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using PersonSpaceshipsGame.Controllers.CardGame;
 using PersonSpaceshipsGame.Controllers.CardGame.Responses;
 using PersonSpaceshipsGame.CQRS.Requests.Cards;
@@ -15,13 +12,10 @@ using PersonSpaceshipsGame.CQRS.Requests.Persons;
 using PersonSpaceshipsGame.CQRS.Requests.Players;
 using PersonSpaceshipsGame.CQRS.Requests.Spaceships;
 using PersonSpaceshipsGame.Dtos;
-using PersonSpaceshipsGame.Factories;
 using PersonSpaceshipsGame.Models;
 using PersonSpaceshipsGame.Models.Cards;
 using PersonSpaceshipsGame.Models.Cards.Person;
 using PersonSpaceshipsGame.Models.Cards.Spaceships;
-using PersonSpaceshipsGame.Services.CardGameService.Interfaces;
-using PersonSpaceshipsGame.Services.Interfaces;
 
 namespace PersonSpaceshipsGame.Controllers.API
 {
@@ -30,7 +24,7 @@ namespace PersonSpaceshipsGame.Controllers.API
     public class GameController : ControllerBase
     {
         private readonly ILogger<GameController> _logger;
-        private readonly CardGameController _cardGameController;
+        private readonly ICardGameController _cardGameController;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
@@ -42,14 +36,23 @@ namespace PersonSpaceshipsGame.Controllers.API
             _mapper = mapper;
         }
 
-        [Route("[action]")]
-        public HttpResponseMessage GetAllPersonCards([FromBody] PlayedCards playedCards)
-        {
-            var response = _mediator.Send(request: new GetPersonsRequestModel { PersonIds = new List<Guid> { playedCards.Card1Id, playedCards.Card2Id } });
-            IEnumerable<IPersonCard> cards = response.Result.PersonCards;
-            return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-        }
-
+        /// <summary>
+        /// Get all card types
+        /// </summary>
+        /// <returns>The list of CardTypeDto's</returns>
+        /// <remarks>
+        /// Sample output:
+        /// 
+        ///      [
+        ///       {
+        ///         "name": "Person"
+        ///       },
+        ///       {
+        ///         "name": "Spaceship"
+        ///       }
+        ///      ]
+        /// </remarks>
+        [HttpGet]
         [Route("[action]")]
         public IEnumerable<CardTypeDto> GetCardTypes()
         {
@@ -57,6 +60,90 @@ namespace PersonSpaceshipsGame.Controllers.API
             return response.Result.CardTypes;
         }
 
+        /// <summary>
+        /// Gets starting cards acording to send CardType ( Person or Spaceship ) 
+        /// </summary>
+        /// <remarks>
+        /// Sample response like:
+        /// 
+        ///         [
+        ///            {
+        ///              "id": "32dc22ed-c7c1-4d69-9b05-667484824ab4",
+        ///              "mass": 70,
+        ///              "name": "Loud Person",
+        ///              "cardTypeString": "Person",
+        ///              "cardType": 0,
+        ///              "player": {
+        ///                "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+        ///                "points": 23,
+        ///                "cards": null
+        ///              }
+        ///          },
+        ///            {
+        ///              "id": "b5378c90-caa6-41e1-ab4d-1dd624fc401e",
+        ///              "mass": 35,
+        ///              "name": "Popular Person",
+        ///              "cardTypeString": "Person",
+        ///              "cardType": 0,
+        ///              "player": {
+        ///                  "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+        ///                "points": 23,
+        ///                "cards": null
+        ///              }
+        ///          },
+        ///            {
+        ///              "id": "fca28765-d903-4ced-9453-904aa02be26a",
+        ///              "mass": 55,
+        ///              "name": "Pretty Person",
+        ///              "cardTypeString": "Person",
+        ///              "cardType": 0,
+        ///              "player": {
+        ///                  "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+        ///                "points": 23,
+        ///                "cards": null
+        ///              }
+        ///          },
+        ///            {
+        ///              "id": "083faa7b-1fda-4dac-ba09-14a63857f1d9",
+        ///              "mass": 1,
+        ///              "name": "Funny Person",
+        ///              "cardTypeString": "Person",
+        ///              "cardType": 0,
+        ///              "player": {
+        ///                  "id": "2dd5aae4-7fb3-4d6a-a679-7c971466f1bb",
+        ///                "points": 17,
+        ///                "cards": null
+        ///              }
+        ///          },
+        ///            {
+        ///              "id": "fca28765-d903-4ced-9453-904aa02be26a",
+        ///              "mass": 55,
+        ///              "name": "Pretty Person",
+        ///              "cardTypeString": "Person",
+        ///              "cardType": 0,
+        ///              "player": {
+        ///                  "id": "2dd5aae4-7fb3-4d6a-a679-7c971466f1bb",
+        ///                "points": 17,
+        ///                "cards": null
+        ///              }
+        ///          },
+        ///            {
+        ///              "id": "58e9c1f8-6017-49cb-a07f-0cdf82efa01d",
+        ///              "mass": 25,
+        ///              "name": "Brave Person",
+        ///              "cardTypeString": "Person",
+        ///              "cardType": 0,
+        ///              "player": {
+        ///                  "id": "2dd5aae4-7fb3-4d6a-a679-7c971466f1bb",
+        ///                "points": 17,
+        ///                "cards": null
+        ///              }
+        ///          }
+        ///          ]
+        /// </remarks>
+        /// <param name="cardType"></param>
+        /// <returns>List of playable cards</returns>
+        [HttpGet]
         [Route("[action]/{cardType}")]
         public IEnumerable<IPlayableCard> GetStartingGamesCards(Enums.CardType cardType)
         {
@@ -74,6 +161,23 @@ namespace PersonSpaceshipsGame.Controllers.API
             }
         }
 
+        /// <summary>
+        /// Posting players round cards
+        /// </summary>
+        /// <remarks>
+        /// Sample respone like:
+        /// 
+        ///      {
+        ///        "winner": {
+        ///          "id": "09d9b6ee-03d8-4d92-b974-44c8c2189a7c",
+        ///          "points": 1,
+        ///          "cards": null
+        ///        },
+        ///        "result": 0
+        ///      }
+        /// </remarks>
+        /// <param name="cards"></param>
+        /// <returns>CardsPlayedResponseDto which has round result and winner player object</returns>
         [HttpPost]
         [Route("[action]")]
         public CardsPlayedResponseDto PostRoundPlayedCards([FromBody] PlayableCardDto[] cards)
@@ -82,10 +186,8 @@ namespace PersonSpaceshipsGame.Controllers.API
             if (cards.Select(x => x.CardType).Distinct().Count() != 1)
                 return null;
 
-            // Wrong winner assign !!!!
-
             IEnumerable<Player> players = _mediator.Send(request: new GetPlayersRequestModel { Guids = cards.Select(x => x.player.Id).ToList() }).Result.Players;
-            ICardsPlayedResponse response; 
+            ICardsPlayedResponse response;
 
             //TODO: Move logic to cardController and follow open/close principle
             switch (cards.First().CardType)
@@ -100,7 +202,7 @@ namespace PersonSpaceshipsGame.Controllers.API
                     return null;//TODO: Better error handling
             }
 
-            if(response.Winner != null)
+            if (response.Winner != null)
                 _mediator.Send(request: new PostPlayerChangesRequestModel { Player = response.Winner });
 
             return _mapper.Map<CardsPlayedResponseDto>(response);

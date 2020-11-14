@@ -1,6 +1,5 @@
 ﻿using PersonSpaceshipsGame.Controllers.CardGame.Responses;
 using PersonSpaceshipsGame.Models.Cards.Spaceships;
-using PersonSpaceshipsGame.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PersonSpaceshipsGame.Services.CardGameService.Interfaces
 {
-    public interface ISpaceshipCardGameService : ICardGameService
+    public interface ISpaceshipCardGameService
     {
         ICardsPlayedResponse ChooseWinnerCard(IEnumerable<ISpaceshipCard> cards);
     }

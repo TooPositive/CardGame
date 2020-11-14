@@ -13,7 +13,6 @@ namespace PersonSpaceshipsGame.Models.Cards
             Person,
             Spaceship
         }
-
         public enum CardResponseResult
         {
             Win,
