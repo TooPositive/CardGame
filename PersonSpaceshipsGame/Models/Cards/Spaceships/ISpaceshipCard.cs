@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PersonSpaceshipsGame.Models.Cards.Spaceships
 {
-    public interface ISpaceshipCard : IPlayableCard, IComparable<ISpaceshipCard>
+    public interface ISpaceshipCard : IPlayableCard
     {
         public int CrewCount { get; set; }
     }

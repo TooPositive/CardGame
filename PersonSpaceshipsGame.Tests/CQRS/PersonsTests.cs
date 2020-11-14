@@ -26,6 +26,7 @@ namespace PersonSpaceshipsGame.Tests.CQRS
         [TestCase]
         public void GetAllPersons_Success()
         {
+            //TODO: add mocked tests
             var getAllRequestModel = new GetPersonsRequestModel { PersonIds = new List<Guid> {new Guid()} };
             _mediator.Setup(x => x.Send(It.IsAny<GetPersonsResponseModel>(), new System.Threading.CancellationToken())).ReturnsAsync(new GetPersonsResponseModel());
             //var cardGameController = new GameApiController(null,null,_mediator.Object);

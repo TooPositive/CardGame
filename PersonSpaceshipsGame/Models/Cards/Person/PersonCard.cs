@@ -31,27 +31,5 @@ namespace PersonSpaceshipsGame.Models.Cards.Person
         public Player Player { get; set; }
         #endregion
 
-
-        //public PersonCard(string json)
-        //{
-
-        //}
-
-        //public PersonCard(Guid id, float mass, string name, Player player)
-        //{
-        //    Id = id;
-        //    Mass = mass;
-        //    Name = name;
-        //    Player = player;
-        //}
-
-        public int CompareTo(IPersonCard other)
-        {
-            if (this.Mass < other.Mass)
-                return -1;
-            if (this.Mass == other.Mass)
-                return 0;
-            return 1;
-        }
     }
 }

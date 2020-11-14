@@ -30,6 +30,7 @@ namespace PersonSpaceshipsGame
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -37,7 +38,14 @@ namespace PersonSpaceshipsGame
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //services.AddDbContext<CardGameContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("CardGameContextConnectionString")));
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "CardGame Api", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
             services.AddDbContext<CardGameContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CardGame;Trusted_Connection=True;"));
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
@@ -49,6 +57,7 @@ namespace PersonSpaceshipsGame
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+
 
         }
 
@@ -75,6 +84,12 @@ namespace PersonSpaceshipsGame
 
             app.UseRouting();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api v1");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -88,7 +103,6 @@ namespace PersonSpaceshipsGame
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
-
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
