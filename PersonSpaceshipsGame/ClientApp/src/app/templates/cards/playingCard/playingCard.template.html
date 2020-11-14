@@ -1,17 +1,10 @@
-<!--<div class="playingCard" *ngIf="inputPlayingCard">
-  <span> Card :) </span>
-  <span class="mat-card-title">{{getName()}}</span>
-  <span>{{getPowerNumber()}}</span>
-</div>-->
-
-
 <mat-card class="playingCard" *ngIf="inputPlayingCard">
   <mat-card-header class="cardTitle">
     <mat-card-title>{{inputPlayingCard.getName()}}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="cardContent">
     <span>There should be an <b> {{inputPlayingCard.getCardType()}} </b> image :) </span>
-    <span class="cardPower">{{inputPlayingCard.getPower()}}</span>
+    <span class="cardPower"> Power - {{inputPlayingCard.getPower()}}</span>
   </mat-card-content>
 </mat-card>
 

@@ -15,6 +15,10 @@
   justify-content: center;
 }
 
+  .startCardGame > button {
+    font-size: 2em;
+  }
+
 .playerContainer {
   display: flex;
   flex-wrap: nowrap;
@@ -22,9 +26,9 @@
   justify-content: space-between;
 }
 
-.playerContainer > b{
+  .playerContainer > b {
     font-size: x-large;
-}
+  }
 
 .gameBoxContainer {
   display: flex;
@@ -49,7 +53,6 @@
 }
 
 .gameBoxColumn.rightGameBoxColumn {
-  /*border-left: solid black 0.15em;*/
 }
 
 .handCardsContainer {
@@ -63,7 +66,6 @@
 
   .handCardsContainer > .handCards {
   }
-
 
     .handCardsContainer > .handCards.active {
       display: block;

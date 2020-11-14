@@ -1,6 +1,6 @@
 <h1 class="mat-display-1" style="text-align:center"> Card Game </h1>
 
-<div id="startCardGame"  *ngIf="!cardGameService.cardTypes">
+<div class="startCardGame"  *ngIf="!cardGameService.cardTypes">
   <button class="mat-raised-button" color="accent" (click)="initCardsDropdown()"> Play a Game! </button>
 </div>
 
@@ -21,8 +21,8 @@
 
 <!--TODO: refactor, allow more users, foreach at least-->
 <div id="playerScores" class="playerContainer" *ngIf="cardGameService.isPlaying">
-  <span>{{cardGameService.player1.id}} - <b> Points {{cardGameService.player1.points}} </b></span>
-  <span>{{cardGameService.player2.id}} - <b> Points {{cardGameService.player2.points}} </b></span>
+  <span [@playerWon]="cardGameService.player1.hasWon" (@playerWon.done)="cardGameService.player1.hasWon = false">{{cardGameService.player1.id}} - <b> Points {{cardGameService.player1.points}} </b></span>
+  <span [@playerWon]="cardGameService.player2.hasWon" (@playerWon.done)="cardGameService.player2.hasWon = false">{{cardGameService.player2.id}} - <b> Points {{cardGameService.player2.points}} </b></span>
 </div>
 
 <!--TODO: Change to foreach-->
@@ -44,11 +44,9 @@
 
   <div class="handCardsContainer" *ngIf="!cardGameService.presentingRoundResult">
     <div [className]="cardGameService.isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
-      <spna>Player1</spna>
       <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="cardGameService.player1Cards"></app-handCards>
     </div>
     <div [className]="!cardGameService.isPlayer1Move ? 'handCards active' : 'handCards notActive' ">
-      <span>Player2</span>
       <app-handCards (messageEvent)="receiveCardClickedMessage($event)" [inputPlayingCards]="cardGameService.player2Cards"></app-handCards>
     </div>
   </div>

@@ -177,10 +177,12 @@ export class CardGameService {
 
     if (this.player1.id === roundResult.winner.id) {
       this.player1.points = roundResult.winner.points;
+      this.player1.hasWon = true;
       this.endRoundDecision = `Player 1 Won`;
     }
     else if (this.player2.id === roundResult.winner.id) {
       this.player2.points = roundResult.winner.points;
+      this.player2.hasWon = true;
       this.endRoundDecision = `Player 2 Won`;
     }
     else
